@@ -1,0 +1,59 @@
+// Prisma schema for finance dashboard assignment.
+// It intentionally keeps the model small and focus-friendly.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  VIEWER
+  ANALYST
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model User {
+  id            String      @id @default(uuid())
+  username      String      @unique
+  passwordHash  String
+  role          Role        @default(ANALYST)
+  status        UserStatus  @default(ACTIVE)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  transactions  Transaction[] @relation("TransactionCreatedBy")
+}
+
+model Transaction {
+  id           String            @id @default(uuid())
+  amountCents Int
+  type         TransactionType
+  category     String
+  date         DateTime
+  notes        String?
+
+  deletedAt    DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  createdByUserId String?
+  createdByUser   User?         @relation("TransactionCreatedBy", fields: [createdByUserId], references: [id])
+
+  @@index([date])
+  @@index([type])
+  @@index([category])
+  @@index([deletedAt])
+}
