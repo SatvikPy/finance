@@ -14,6 +14,7 @@ const userRoutes_1 = require("./routes/userRoutes");
 const transactionRoutes_1 = require("./routes/transactionRoutes");
 const dashboardRoutes_1 = require("./routes/dashboardRoutes");
 exports.app = (0, express_1.default)();
+exports.default = exports.app;
 exports.app.use((0, helmet_1.default)());
 exports.app.use((0, cors_1.default)());
 exports.app.use((0, morgan_1.default)("dev"));

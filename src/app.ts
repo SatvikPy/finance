@@ -10,6 +10,7 @@ import { transactionRouter } from "./routes/transactionRoutes";
 import { dashboardRouter } from "./routes/dashboardRoutes";
 
 export const app = express();
+export default app;
 
 app.use(helmet());
 app.use(cors());
